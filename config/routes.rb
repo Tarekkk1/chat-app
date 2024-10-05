@@ -1,26 +1,14 @@
 Rails.application.routes.draw do
-  get 'messages/create'
+  resources :messages, only: [:create, :update, :show, :index] do
+    collection do
+      get 'list'
+      get 'search'
+    end
+  end
 
-  get 'messages/update'
+  resources :chats, only: [:create, :index, :show]
 
-  get 'messages/show'
+  resources :applications, param: :token, only: [:create, :show, :update]
 
-  get 'messages/list'
-
-  get 'messages/search'
-
-  get 'chats/create'
-
-  get 'chats/index'
-
-  get 'chats/show'
-
-  get 'apps/create'
-
-  get 'apps/show'
-
-  get 'apps/update'
-
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get "about", to: "about#index"
 end

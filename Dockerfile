@@ -6,6 +6,8 @@ COPY Gemfile Gemfile.lock /app/
 
 RUN bundle install
 
+RUN rails db:migrate
+
 COPY . /app
 
 EXPOSE 3000
