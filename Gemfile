@@ -16,6 +16,7 @@ gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'delayed_job_active_record'
 gem 'fast_jsonapi'
+gem 'redlock'
 
 group :development, :test do
   gem 'byebug', platform: :mri
