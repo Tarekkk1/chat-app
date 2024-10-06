@@ -1,7 +1,8 @@
 class ApplicationsController < ApplicationController
   def create
     begin
-      application = Application.create!(name: application_prams[:name], token: SecureRandom.hex(12))
+      application = Application.create!(name: application_params[:name], token: SecureRandom.hex(12))
+      Redis.current.del("application_#{application.token}")
       render(
         json: {
           status: "success",
@@ -23,55 +24,44 @@ class ApplicationsController < ApplicationController
   def show
     begin
       if params[:token].blank?
-        render(
-          json: {
-            status: "error",
-            message: "Token can't be blank"
-          },
-          status: :unprocessable_entity
-        )
+        render(json: { status: "error", message: "Token can't be blank" }, status: :unprocessable_entity)
         return
       end
-      
-      application = Application.find_by!(token: params[:token])
+
+      application = Redis.current.get("application_#{params[:token]}")
+      unless application
+        application = Application.find_by!(token: params[:token])
+        Redis.current.set("application_#{params[:token]}", application.to_json)
+      else
+        application = Application.new(JSON.parse(application))
+      end
+
       render(
         json: {
-          status: "success",
-          application: ApplicationSerializer.new(application).to_hash[:data][:attributes],
+          status: "success", 
+          application: ApplicationSerializer.new(application).to_hash[:data][:attributes]
         },
         status: :ok
       )
     rescue ActiveRecord::RecordNotFound
-      render(
-        json: {
-          status: "error",
-          message: "Application not found"
-        },
-        status: :not_found
-      )
+      render(json: { status: "error", message: "Application not found" }, status: :not_found)
     end
   end
-  
+
   def update
     if params[:token].blank?
-      render(
-        json: {
-          status: "error",
-          message: "Token can't be blank"
-        },
-        status: :unprocessable_entity
-      )
+      render(json: { status: "error", message: "Token can't be blank" }, status: :unprocessable_entity)
       return
     end
 
     begin
       application = Application.find_by!(token: params[:token])
-
-      if application.update(application_prams)
+      if application.update(application_params)
+        Redis.current.del("application_#{params[:token]}")
         render(
           json: {
             status: "success",
-            application: ApplicationSerializer.new(application).to_hash[:data][:attributes],
+            application: ApplicationSerializer.new(application).to_hash[:data][:attributes]
           },
           status: :ok
         )
@@ -85,19 +75,13 @@ class ApplicationsController < ApplicationController
         )
       end
     rescue ActiveRecord::RecordNotFound
-      render(
-        json: {
-          status: "error",
-          message: "Application not found with the provided token"
-        },
-        status: :not_found
-      )
+      render(json: { status: "error", message: "Application not found with the provided token" }, status: :not_found)
     end
   end
 
   private
 
-  def application_prams
+  def application_params
     params.require(:application).permit(:name)
   end
 end

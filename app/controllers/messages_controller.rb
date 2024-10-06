@@ -3,6 +3,8 @@ class MessagesController < ApplicationController
     application = Application.find_by!(token: params[:application_token])
     chat = Chat.find_by!(application_token: application.token, chat_number: params[:chat_chat_number])
 
+    Redis.current.del("messages_for_chat_#{chat.id}")
+
     MessageCreationJob.perform_later(chat.id, chat.chat_number, application.token, params[:body])
 
     render(
@@ -28,6 +30,8 @@ class MessagesController < ApplicationController
     message = Message.find_by!(chat_id: chat.id, message_number: params[:message_number])
 
     message.update!(body: params[:body])
+
+    Redis.current.del("messages_for_chat_#{chat.id}")
 
     render(
       json: {
@@ -79,7 +83,14 @@ class MessagesController < ApplicationController
   def list
     application = Application.find_by!(token: params[:application_token])
     chat = Chat.find_by!(application_token: application.token, chat_number: params[:chat_number])
-    messages = chat.messages
+
+    messages = Redis.current.get("messages_for_chat_#{chat.id}")
+    unless messages
+      messages = chat.messages
+      Redis.current.set("messages_for_chat_#{chat.id}", messages.to_json)
+    else
+      messages = JSON.parse(messages).map { |message| Message.new(message) }
+    end
 
     render(
       json: {
@@ -99,9 +110,9 @@ class MessagesController < ApplicationController
   end
 
   def search
-
     application = Application.find_by!(token: params[:application_token])
-    chat = Chat.find_by!(application_token: application.token, chat_number: params[:chat_chat_number]) 
+    chat = Chat.find_by!(application_token: application.token, chat_number: params[:chat_chat_number])
+
     messages = Message.search({
       query: {
         bool: {
@@ -130,5 +141,4 @@ class MessagesController < ApplicationController
       status: :not_found
     )
   end
-  
 end
