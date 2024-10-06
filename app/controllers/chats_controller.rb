@@ -1,8 +1,5 @@
 class ChatsController < ApplicationController
   def create
-
-    Rails.logger.debug("Params: #{params.inspect}")
-
       application = Application.find_by!(token: params[:application_token])
 
       application.increment!(:chats_count)

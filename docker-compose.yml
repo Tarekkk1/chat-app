@@ -13,6 +13,18 @@ services:
         volumes:
             - mysql-data:/var/lib/mysql
     
+    elasticsearch:
+      image: elasticsearch:7.17.6
+      hostname: "elasticsearch"
+      environment:
+          - discovery.type=single-node
+      ports:
+         - 9200:9200
+      deploy:
+        resources:
+            limits:
+                memory: 2g
+
     app: 
         build: .
         command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
@@ -23,6 +35,7 @@ services:
         depends_on:
             - db
             - redis
+            - elasticsearch
         links:
             - db
         environment:
@@ -31,6 +44,7 @@ services:
             DB_PASSWORD: password
             DB_HOST: db
             REDIS_URL_CACHING: redis://redis:6379/0
+            ELASTICSEARCH_URL: http://elasticsearch:9200
         stdin_open: true
         tty: true
 

@@ -1,0 +1,8 @@
+development: &default
+  host: 'http://elasticsearch:9200'
+
+test:
+  <<: *default
+
+production:
+  <<: *default
