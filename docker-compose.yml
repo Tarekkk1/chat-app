@@ -1,5 +1,16 @@
 version: '2'
 services:
+    worker:
+        build: .
+        command: bash -c "bundle exec rake jobs:work"
+        depends_on:
+            - app
+            - db
+        environment:
+            DB_USER: root
+            DB_NAME: app
+            DB_PASSWORD: password
+            DB_HOST: db
     db: 
         image: mysql:5.7
         restart: always

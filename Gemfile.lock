@@ -46,6 +46,11 @@ GEM
     concurrent-ruby (1.1.10)
     connection_pool (2.2.5)
     crass (1.0.6)
+    delayed_job (4.1.12)
+      activesupport (>= 3.0, < 8.0)
+    delayed_job_active_record (4.1.10)
+      activerecord (>= 3.0, < 8.0)
+      delayed_job (>= 3.0, < 5)
     elasticsearch (7.17.11)
       elasticsearch-api (= 7.17.11)
       elasticsearch-transport (= 7.17.11)
@@ -196,6 +201,7 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   byebug
+  delayed_job_active_record
   elasticsearch-model
   elasticsearch-rails
   fast_jsonapi

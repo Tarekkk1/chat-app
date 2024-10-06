@@ -3,22 +3,14 @@ class MessagesController < ApplicationController
     application = Application.find_by!(token: params[:application_token])
     chat = Chat.find_by!(application_token: application.token, chat_number: params[:chat_chat_number])
 
-    message = Message.create!(
-      chat_id: chat.id,
-      chat_number: chat.chat_number,
-      application_token: application.token,
-      message_number: chat.messages_count + 1,
-      body: params[:body]
-    )
-
-    chat.increment!(:messages_count)
+    MessageCreationJob.perform_later(chat.id, chat.chat_number, application.token, params[:body])
 
     render(
       json: {
         status: "success",
-        message: MessageSerializer.new(message).to_hash[:data][:attributes],
+        message: "Message creation queued"
       },
-      status: :created
+      status: :accepted
     )
   rescue ActiveRecord::RecordNotFound => e
     render(
@@ -28,15 +20,6 @@ class MessagesController < ApplicationController
       },
       status: :not_found
     )
-  rescue ActiveRecord::RecordInvalid => e
-    render(
-      json: {
-        status: "error",
-        message: e.message
-      },
-      status: :unprocessable_entity
-    )
-
   end
 
   def update
@@ -118,8 +101,7 @@ class MessagesController < ApplicationController
   def search
 
     application = Application.find_by!(token: params[:application_token])
-    chat = Chat.find_by!(application_token: application.token, chat_number: params[:chat_chat_number])
-  
+    chat = Chat.find_by!(application_token: application.token, chat_number: params[:chat_chat_number]) 
     messages = Message.search({
       query: {
         bool: {

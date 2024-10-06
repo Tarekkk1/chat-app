@@ -1,38 +1,24 @@
 class ChatsController < ApplicationController
   def create
-      application = Application.find_by!(token: params[:application_token])
+    application = Application.find_by!(token: params[:application_token])
 
-      application.increment!(:chats_count)
+    ChatCreationJob.perform_later(application.id, application.token)
 
-      chat = Chat.create!(
-        application_id: application.id,
-        application_token: application.token,
-        chat_number: application.chats_count
-      )
-
-      render(
-        json: {
-          status: "success",
-          chat: ChatSerializer.new(chat).to_hash[:data][:attributes],
-        },
-        status: :created
-      )
-    rescue ActiveRecord::RecordNotFound => e
-      render(
-        json: {
-          status: "error",
-          message: e.message
-        },
-        status: :not_found
-      )
-    rescue ActiveRecord::RecordInvalid => e
-      render(
-        json: {
-          status: "error",
-          message: e.message
-        },
-        status: :unprocessable_entity
-      )
+    render(
+      json: {
+        status: "success",
+        message: "Chat creation queued"
+      },
+      status: :accepted
+    )
+  rescue ActiveRecord::RecordNotFound => e
+    render(
+      json: {
+        status: "error",
+        message: e.message
+      },
+      status: :not_found
+    )
   end
 
   def index
