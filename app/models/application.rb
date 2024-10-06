@@ -3,7 +3,4 @@ class Application < ApplicationRecord
     validates_uniqueness_of :token
     validates :name, presence: true
 
-    def chats_count
-        chats.count
-    end
 end

@@ -1,14 +1,13 @@
 Rails.application.routes.draw do
-  resources :messages, only: [:create, :update, :show, :index] do
-    collection do
-      get 'list'
-      get 'search'
+  resources :applications, param: :token, only: [:create, :show, :update] do
+    resources :chats, only: [:create, :index, :show], param: :chat_number do
+      resources :messages, only: [:create, :index, :show] do
+        collection do
+          get 'search'
+        end
+      end
     end
   end
-
-  resources :chats, only: [:create, :index, :show]
-
-  resources :applications, param: :token, only: [:create, :show, :update]
 
   get "about", to: "about#index"
 end
