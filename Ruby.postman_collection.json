@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "89593570-fef3-419b-8708-3f345263f6be",
+		"name": "Ruby",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26366023"
+	},
+	"item": [
+		{
+			"name": "CreateApplication",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"application\": {\n        \"name\":\"First Test\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/applications/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"applications",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateApplication",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"application\": {\n        \"name\": \"Update\",\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/applications/d45704c83655c471464bf989",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"applications",
+						"d45704c83655c471464bf989"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ShowApplication",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateChat",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/applications/336b09bc36022ffc88419f07/chats",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"applications",
+						"336b09bc36022ffc88419f07",
+						"chats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetChats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetChat",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateMessage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/applications/336b09bc36022ffc88419f07/chats/2/messages",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"applications",
+						"336b09bc36022ffc88419f07",
+						"chats",
+						"2",
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateMessage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetChatMessages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetMessage",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SearchMessages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:3001"
+		}
+	]
+}
