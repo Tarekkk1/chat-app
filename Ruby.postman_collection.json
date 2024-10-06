@@ -42,7 +42,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"application\": {\n        \"name\": \"Update\",\n    }\n}",
+					"raw": "{\n    \"application\": {\n        \"name\": \"Update\"\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -50,13 +50,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/applications/d45704c83655c471464bf989",
+					"raw": "{{url}}/applications/a08cdf206cfba54013a95f8a",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"applications",
-						"d45704c83655c471464bf989"
+						"a08cdf206cfba54013a95f8a"
 					]
 				}
 			},
@@ -68,7 +68,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "{{url}}/applications/a08cdf206cfba54013a95f8a",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"applications",
+						"a08cdf206cfba54013a95f8a"
+					]
 				}
 			},
 			"response": []
@@ -79,13 +86,13 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/applications/336b09bc36022ffc88419f07/chats",
+					"raw": "{{url}}/applications/a08cdf206cfba54013a95f8a/chats",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"applications",
-						"336b09bc36022ffc88419f07",
+						"a08cdf206cfba54013a95f8a",
 						"chats"
 					]
 				}
@@ -98,7 +105,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "{{url}}/applications/a08cdf206cfba54013a95f8a/chats/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"applications",
+						"a08cdf206cfba54013a95f8a",
+						"chats",
+						""
+					]
 				}
 			},
 			"response": []
@@ -109,7 +125,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "{{url}}/applications/a08cdf206cfba54013a95f8a/chats/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"applications",
+						"a08cdf206cfba54013a95f8a",
+						"chats",
+						"1"
+					]
 				}
 			},
 			"response": []
@@ -119,16 +144,25 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"body\":\"Message\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{url}}/applications/336b09bc36022ffc88419f07/chats/2/messages",
+					"raw": "{{url}}/applications/a08cdf206cfba54013a95f8a/chats/1/messages",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"applications",
-						"336b09bc36022ffc88419f07",
+						"a08cdf206cfba54013a95f8a",
 						"chats",
-						"2",
+						"1",
 						"messages"
 					]
 				}
@@ -138,10 +172,30 @@
 		{
 			"name": "UpdateMessage",
 			"request": {
-				"method": "GET",
+				"method": "PATCH",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"body\":\"Update Message\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": ""
+					"raw": "{{url}}/applications/a08cdf206cfba54013a95f8a/chats/1/messages/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"applications",
+						"a08cdf206cfba54013a95f8a",
+						"chats",
+						"1",
+						"messages",
+						"1"
+					]
 				}
 			},
 			"response": []
@@ -152,7 +206,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "{{url}}/applications/a08cdf206cfba54013a95f8a/chats/1/list",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"applications",
+						"a08cdf206cfba54013a95f8a",
+						"chats",
+						"1",
+						"list"
+					]
 				}
 			},
 			"response": []
@@ -163,7 +227,18 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "{{url}}/applications/2b355b0f3275dafc5401c335/chats/1/messages/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"applications",
+						"2b355b0f3275dafc5401c335",
+						"chats",
+						"1",
+						"messages",
+						"1"
+					]
 				}
 			},
 			"response": []
@@ -174,7 +249,24 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "{{url}}/applications/a08cdf206cfba54013a95f8a/chats/1/messages/search?query=message",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"applications",
+						"a08cdf206cfba54013a95f8a",
+						"chats",
+						"1",
+						"messages",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "message"
+						}
+					]
 				}
 			},
 			"response": []

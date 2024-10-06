@@ -1,5 +1,15 @@
 class MessagesController < ApplicationController
   def create
+    if params[:application_token].blank? || params[:chat_chat_number].blank? || params[:body].blank?
+      return render(
+        json: {
+          status: "error",
+          message: "Application token, chat number, and body can't be blank"
+        },
+        status: :unprocessable_entity
+      )
+    end
+
     application = Application.find_by!(token: params[:application_token])
     chat = Chat.find_by!(application_token: application.token, chat_number: params[:chat_chat_number])
 
